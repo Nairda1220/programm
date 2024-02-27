@@ -1,0 +1,32 @@
+import os
+file_name = r'/home/csp/zxy/mouse/kmeansmouse'
+
+# 遍历8个clusters
+for i in range(0,8):
+    file_path = file_name + "/" + "cluster" + str(i)
+    file_list = os.listdir(file_path)
+    count = 0
+    
+# 遍历此文件夹下所有的文件    
+    for name in file_list:
+        if name.endswith('.xml'): # 找出所有的xml文件
+            count = count + 1 # 统计有多少个xml文件
+            old_xmlname = os.path.join(file_path,name) # 获得旧名称
+            new_xmlname = os.path.join(file_path,f'csp_mouse_{i}_{"%04d" % count}.xml') # 设置新的名称
+            xml_name = os.path.splitext(name)[0]
+            
+            # 找出与之对应的jpg文件
+            for name in file_list:
+                if name.endswith('.jpg'):
+                    old_jpgname = os.path.join(file_path,name)
+                    new_jpgname = os.path.join(file_path,f'csp_mouse_{i}_{"%04d" % count}.jpg')
+                    pic_name = os.path.splitext(name)[0]
+                    if pic_name == xml_name:
+                        os.rename(old_xmlname,new_xmlname) # 对xml重命名
+                        os.rename(old_jpgname,new_jpgname) # 对jpg重命名
+                    else:
+                        continue
+                else:
+                    continue
+        else:
+            continue

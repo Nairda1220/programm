@@ -1,0 +1,49 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
+
+
+import os
+import shutil
+import cv2 as cv
+
+
+
+def photo_classify(files_path):
+#读取文件夹中所有文件的名称
+    files_list = os.listdir(files_path)
+    #遍历所有图片
+    for photo in files_list:
+        
+        
+        #获取图片路径
+        photo_path = os.path.join(files_path, photo)
+        
+        #判断是否为文件夹
+        if os.path.isdir(photo_path):
+            continue
+        else:
+            img = cv.imread(photo_path)
+            sp = img.shape
+            weight = sp[0]
+            high = sp[1]
+            
+            
+            
+            file_name = str(weight) + '-' + str(high)
+            new_path = os.path.join(files_path, file_name)
+            if os.path.isdir(new_path):
+                shutil.copyfile(photo_path, os.path.join(new_path, photo))
+            else:
+                os.mkdir(new_path)
+                shutil.copyfile(photo_path, os.path.join(new_path, photo))
+files_path = r'/home/csp/图片/mouse'
+if __name__ == '__main__':
+    photo_classify(files_path)
+            
+
+
+
+
+
